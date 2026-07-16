@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
-  "description": "Public opt-in Xscape display-name themes.",
+  "updatedAt": "2026-07-16",
+  "description": "Public opt-in Xscape display-name themes. @NovasPlace runs the signature Rune Surge wave.",
   "themes": {
     "novasplace": {
       "effect": "wave",
-      "color1": "#00f5ff",
-      "color2": "#8b5cf6",
-      "speed": 0.92,
-      "intensity": 0.9
+      "color1": "#57d9ff",
+      "color2": "#f4c95d",
+      "speed": 1.08,
+      "intensity": 1
     }
   }
 }
