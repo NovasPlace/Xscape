@@ -10,7 +10,7 @@ body{
   background:var(--bg);color:var(--text);transition:background .25s,color .25s,width .2s;
 }
 body:before{
-  content:"";position:fixed;inset:-25%;z-index:-1;pointer-events:none;
+  content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;
   background:
     radial-gradient(circle at 18% 8%,color-mix(in srgb,var(--a) 38%,transparent),transparent 28%),
     radial-gradient(circle at 86% 82%,color-mix(in srgb,var(--b) 28%,transparent),transparent 30%);
@@ -18,7 +18,7 @@ body:before{
 }
 body.motion:before{animation:xscape-drift 12s ease-in-out infinite alternate}
 @keyframes xscape-drift{to{transform:translate3d(5%,-3%,0) rotate(7deg) scale(1.06)}}
-main{padding:16px}
+main{padding:16px;position:relative;z-index:1}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 header b{display:block;font-size:19px;letter-spacing:.01em;text-shadow:0 0 14px color-mix(in srgb,var(--a) 52%,transparent)}
 header small{color:var(--muted)}
