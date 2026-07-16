@@ -1,0 +1,13 @@
+.xscape-fx{--x1:#ff3cac;--x2:#00f5ff;position:relative;display:inline-block!important;isolation:isolate;transform-origin:50% 65%;will-change:transform,filter,color,background-position,text-shadow}
+.xscape-solid{color:var(--x1)!important;text-shadow:0 0 4px color-mix(in srgb,var(--x1) 55%,transparent)}
+.xscape-gradient,.xscape-rainbow,.xscape-fire,.xscape-ice,.xscape-toxic{color:transparent!important;background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important}
+.xscape-gradient{background-image:linear-gradient(105deg,var(--x1),var(--x2),#fff,var(--x1),var(--x2))!important;background-size:300% 100%!important}
+.xscape-glow{color:var(--x1)!important}
+.xscape-rainbow{background-image:linear-gradient(90deg,#ff1744,#ff9100,#ffee00,#00e676,#00d9ff,#4f6cff,#b34cff,#f500d4,#ff1744)!important;background-size:350% 100%!important}
+.xscape-flash{color:var(--x1)}
+.xscape-wave{color:var(--x1)!important;white-space:pre;text-shadow:0 0 5px var(--x1)}
+.xscape-char{display:inline-block;position:relative;will-change:transform,color}
+.xscape-pulse{color:var(--x1)!important}
+.xscape-fire{background-image:linear-gradient(0deg,#7a0010,#ff1f00,#ff6a00,#ffd000,#fff7b0,#ff4a00)!important;background-size:100% 300%!important;filter:drop-shadow(0 0 7px #ff6a00)}
+.xscape-ice{background-image:linear-gradient(100deg,#5b78ff,#74ddff,#fff,#b8f7ff,#fff,#65c8ff,#737dff)!important;background-size:300% 100%!important;filter:drop-shadow(0 0 7px #74ddff)}
+.xscape-toxic{background-image:linear-gradient(90deg,#76ff00,#eaff00,#20ff5a,#00ffd5,#c8ff00,#76ff00)!important;background-size:300% 100%!important;filter:drop-shadow(0 0 8px #76ff00)}
