@@ -125,11 +125,18 @@
     return candidates[0];
   }
 
-  function stop(element) {
+  function stop(element,preserveMain=false) {
     for(const animation of running.get(element) || []){
       try{animation.cancel();}catch{}
     }
     running.delete(element);
+    if(preserveMain){
+      delete element.dataset.xscapeCompatOriginal;
+      element.classList.remove("xscape-compat-fx");
+      delete element.dataset.xscapeCompat;
+      delete element.dataset.xscapeCompatHandle;
+      return;
+    }
     if(element.dataset.xscapeCompatOriginal!=null){
       element.textContent=element.dataset.xscapeCompatOriginal;
       delete element.dataset.xscapeCompatOriginal;
@@ -152,7 +159,8 @@
   }
 
   function apply(element,handle,raw) {
-    if(!raw || !settings.enabled || element.classList.contains("xscape-fx"))return stop(element);
+    if(element.classList.contains("xscape-fx"))return stop(element,true);
+    if(!raw || !settings.enabled)return stop(element);
     const effect=EFFECTS.has(String(raw.effect).toLowerCase()) ? String(raw.effect).toLowerCase() : "rainbow";
     const c1=validColor(raw.color1,"#ff3cac");
     const c2=validColor(raw.color2,"#00f5ff");
@@ -249,7 +257,11 @@
     for(const element of document.querySelectorAll(".xscape-compat-fx")){
       const link=element.closest('a[href^="/"]');
       const handle=link?handleFromLink(link):"";
-      if(!element.isConnected || !handle || handle!==element.dataset.xscapeCompatHandle || element.classList.contains("xscape-fx")){
+      if(element.classList.contains("xscape-fx")){
+        stop(element,true);
+        continue;
+      }
+      if(!element.isConnected || !handle || handle!==element.dataset.xscapeCompatHandle){
         stop(element);
       }
     }
