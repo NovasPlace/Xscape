@@ -22,7 +22,8 @@ const DEFAULTS = {
   overlayHideTrends:false,
   overlayHideAds:true,
   overlayDimMedia:false,
-  overlayRoundMedia:true
+  overlayRoundMedia:true,
+  overlayUpdatedAt:0
 };
 const $ = selector => document.querySelector(selector);
 const el = {
@@ -97,7 +98,7 @@ function readForm() {
   };
 }
 async function persist(message="X overlay updated.") {
-  Object.assign(settings, readForm());
+  Object.assign(settings, readForm(), { overlayUpdatedAt: Date.now() });
   const stored = await chrome.storage.local.get(KEY);
   const current = stored[KEY] && typeof stored[KEY] === "object" ? stored[KEY] : {};
   await chrome.storage.local.set({ [KEY]: { ...current, ...settings } });
@@ -107,7 +108,7 @@ async function persist(message="X overlay updated.") {
     if (tab?.id) await chrome.tabs.sendMessage(tab.id, { type:"XSCAPE_OVERLAY_REFRESH" });
   } catch {}
 
-  note(message);
+  if (message) note(message);
 }
 function chooseTheme(name) {
   if (!THEMES[name]) return;
@@ -151,5 +152,16 @@ el.reset.onclick = async () => {
   loadForm();
   await persist("X overlay reset.");
 };
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area !== "local" || !changes[KEY]) return;
+  const incoming = merge(changes[KEY].newValue);
+  if (Number(incoming.overlayUpdatedAt || 0) < Number(settings.overlayUpdatedAt || 0)) {
+    setTimeout(() => persist(null).catch(() => {}), 0);
+    return;
+  }
+  settings = incoming;
+  loadForm();
+});
 
 init().catch(error => note(error.message, true));
