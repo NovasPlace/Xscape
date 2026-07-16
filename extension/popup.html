@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Xscape</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<main>
+  <header><div><b>Xscape</b><small>Community Name FX</small></div><label class="switch"><input id="enabled" type="checkbox"><span></span></label></header>
+
+  <section class="preview">
+    <small>LIVE PREVIEW</small>
+    <strong id="preview">NovasPlace</strong>
+    <em id="previewHandle">@novasplace</em>
+  </section>
+
+  <nav><button class="tab active" data-tab="style">Style</button><button class="tab" data-tab="community">Community</button></nav>
+
+  <section id="style" class="pane active">
+    <label>Handle<input id="handle" maxlength="15" placeholder="NovasPlace"></label>
+    <div class="row">
+      <label>Effect<select id="effect">
+        <option value="wave">Wave</option><option value="rainbow">Rainbow</option>
+        <option value="flash">Flash</option><option value="glow">Glow</option>
+        <option value="gradient">Gradient</option><option value="pulse">Pulse</option>
+        <option value="fire">Fire</option><option value="ice">Ice</option>
+        <option value="toxic">Toxic</option><option value="solid">Solid</option>
+      </select></label>
+      <button id="usePage" class="small">Use page</button>
+    </div>
+    <div class="row colors"><label>Color 1<input id="color1" type="color"></label><label>Color 2<input id="color2" type="color"></label></div>
+    <label>Speed <output id="speedOut"></output><input id="speed" type="range" min=".25" max="4" step=".05"></label>
+    <label>Intensity <output id="intensityOut"></output><input id="intensity" type="range" min=".1" max="1" step=".05"></label>
+    <div class="buttons"><button id="save" class="primary">Save style</button><button id="remove">Remove</button></div>
+    <label class="toggleLine"><span><b>Grand Exchange mode</b><small>Apply this effect to every visible profile.</small></span><input id="demoMode" type="checkbox"></label>
+  </section>
+
+  <section id="community" class="pane">
+    <label class="toggleLine"><span><b>Community Sync</b><small>Show themes published in the GitHub registry.</small></span><input id="communityEnabled" type="checkbox"></label>
+    <label>Registry URL<textarea id="registryUrl" rows="3"></textarea></label>
+    <div class="buttons"><button id="saveRegistry" class="primary">Save registry</button><button id="refresh">Refresh now</button></div>
+    <div id="registryStatus" class="statusBox">Not synced yet.</div>
+    <div class="buttons"><button id="copyTheme">Copy theme JSON</button><button id="openRegistry">Open registry</button></div>
+    <label>Muted handles<input id="mutedHandles" placeholder="spam, anotherhandle"></label>
+    <label>Muted effects<input id="mutedEffects" placeholder="flash, toxic"></label>
+    <button id="saveMutes">Save mutes</button>
+  </section>
+
+  <p id="status"></p>
+</main>
+<script type="module" src="popup.js"></script>
+</body>
+</html>
