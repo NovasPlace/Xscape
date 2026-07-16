@@ -23,6 +23,8 @@
   let community = new Map();
   let scanning = false;
   let lookupTimer = 0;
+  let lastLookup = "";
+  let lastLookupAt = 0;
   const running = new WeakMap();
 
   const norm = value => String(value || "").trim().replace(/^@/,"").toLowerCase().replace(/[^a-z0-9_]/g,"").slice(0,15);
@@ -58,6 +60,9 @@
   }
 
   function findName(box, handle) {
+    const existing = [...box.querySelectorAll(".xscape-fx")]
+      .find(node => node.dataset.xscapeHandle === handle);
+    if (existing) return existing;
     const leaves = [...box.querySelectorAll("span")].filter(span => !span.children.length);
     return leaves.find(span => {
       const text=(span.textContent || "").trim();
@@ -185,9 +190,15 @@
   }
 
   async function lookup(handles) {
-    if (!settings.communityEnabled) { community.clear(); return; }
+    if (!settings.communityEnabled) { community.clear(); lastLookup=""; return; }
+    const unique=[...new Set(handles.map(norm).filter(Boolean))].sort().slice(0,100);
+    const signature=unique.join(",");
+    const now=Date.now();
+    if (!unique.length || (signature===lastLookup && now-lastLookupAt<30000)) return;
+    lastLookup=signature;
+    lastLookupAt=now;
     try {
-      const response=await chrome.runtime.sendMessage({type:"XSCAPE_LOOKUP_THEMES",handles:[...new Set(handles)].slice(0,100)});
+      const response=await chrome.runtime.sendMessage({type:"XSCAPE_LOOKUP_THEMES",handles:unique});
       if (!response?.ok) return;
       community=new Map(Object.entries(response.themes || {}));
       queue();
@@ -221,6 +232,8 @@
     if (area==="local" && changes[KEY]) {
       settings=merge(changes[KEY].newValue);
       community.clear();
+      lastLookup="";
+      lastLookupAt=0;
       queue();
     }
   });
