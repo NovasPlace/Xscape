@@ -1,0 +1,26 @@
+name: Validate community themes
+on:
+  pull_request:
+    paths:
+      - "themes/community.json"
+      - "extension/registry-core.js"
+      - "scripts/**"
+  push:
+    branches: [main]
+    paths:
+      - "themes/community.json"
+      - "extension/registry-core.js"
+      - "scripts/**"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/validate-themes.mjs themes/community.json
+      - run: node scripts/test-registry.mjs
+      - run: node --check extension/background.js
+      - run: node --check extension/content.js
+      - run: node --check extension/popup.js
