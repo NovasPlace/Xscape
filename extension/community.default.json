@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "description": "Public opt-in Xscape display-name themes.",
+  "themes": {
+    "novasplace": {
+      "effect": "wave",
+      "color1": "#00f5ff",
+      "color2": "#8b5cf6",
+      "speed": 0.92,
+      "intensity": 0.9
+    }
+  }
+}
