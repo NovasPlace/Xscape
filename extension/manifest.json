@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Xscape — Community Name FX for X",
-  "version": "0.4.0",
-  "description": "OSRS-style animated X display names with a shared GitHub community theme registry.",
+  "version": "0.4.1",
+  "description": "OSRS-style animated X display names with named presets and a shared GitHub community theme registry.",
   "permissions": [
     "storage",
     "activeTab",
