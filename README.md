@@ -5,10 +5,10 @@
 ### Give X some XP.
 
 **OSRS-style animated display-name cosmetics for X.**  
-Color, motion, glow, gradients, and community themes—without X's developer API.
+Color, motion, glow, gradients, community themes, and a fully customizable extension UI—without X's developer API.
 
 ![Manifest](https://img.shields.io/badge/Manifest-V3-57D9FF?style=for-the-badge)
-![Version](https://img.shields.io/badge/version-0.4.0-F4C95D?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-0.5.0-F4C95D?style=for-the-badge)
 ![Local First](https://img.shields.io/badge/local--first-79FF97?style=for-the-badge)
 ![No X API](https://img.shields.io/badge/X_API-not_required-FF69D4?style=for-the-badge)
 
@@ -46,6 +46,37 @@ Rainbow wave: priceless
 | **Solid** | Clean custom color |
 
 Each style supports configurable colors, speed, and intensity with a live preview.
+
+## 🧙 Named presets
+
+Presets instantly apply a complete effect loadout to the selected handle:
+
+| Preset | Effect |
+|---|---|
+| **Rune Surge** | Magic Cyan and Rune Gold signature wave |
+| **Party Hat** | Full-spectrum rainbow flex |
+| **Ice Barrage** | Frozen Ancient Magicks shimmer |
+| **Toxic PK** | Fast radioactive jitter |
+| **Infernal Cape** | Maximum-intensity fire |
+| **Void Pulse** | Controlled purple breathing glow |
+| **Ancient Glow** | Cyan-violet magical aura |
+
+All preset values remain editable after selection.
+
+## 🎛️ Customizable interface
+
+The popup is now part of the loadout too. Open **Interface** to choose:
+
+- **Neon Rune**
+- **Grand Exchange**
+- **Void**
+- **Frozen**
+- **Inferno**
+- **Toxic**
+- **Party**
+- **Custom**, with two user-selected accent colors
+
+Interface options also include glass panels, compact mode, and an animated ambient backdrop. These settings are stored locally and do not affect other users.
 
 ## 🪙 Grand Exchange mode
 
@@ -114,7 +145,7 @@ extension/              Unpacked Chromium extension
 ├── manifest.json       Manifest V3 configuration
 ├── content.*           X page detection and effects
 ├── background.js       Registry sync service worker
-└── popup.*             Style editor and community controls
+└── popup.*             Style, community, and interface controls
 
 themes/community.json   Shared public theme registry
 scripts/                Validation and registry tests
@@ -150,6 +181,6 @@ See [`BRANDING.md`](BRANDING.md) for the full visual direction.
 
 ### The timeline has been gray long enough.
 
-**Install Xscape. Pick an effect. Start glowing.**
+**Install Xscape. Pick an effect. Skin the interface. Start glowing.**
 
 </div>
