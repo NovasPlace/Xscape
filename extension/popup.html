@@ -8,7 +8,10 @@
 </head>
 <body>
 <main>
-  <header><div><b>Xscape</b><small>Community Name FX</small></div><label class="switch"><input id="enabled" type="checkbox"><span></span></label></header>
+  <header>
+    <div><b>✦ Xscape</b><small>Community Name FX · v0.5.0</small></div>
+    <label class="switch" title="Enable Xscape"><input id="enabled" type="checkbox"><span></span></label>
+  </header>
 
   <section class="preview">
     <small>LIVE PREVIEW</small>
@@ -16,13 +19,23 @@
     <em id="previewHandle">@novasplace</em>
   </section>
 
-  <nav><button class="tab active" data-tab="style">Style</button><button class="tab" data-tab="community">Community</button></nav>
+  <nav>
+    <button class="tab active" data-tab="style">Style</button>
+    <button class="tab" data-tab="community">Community</button>
+    <button class="tab" data-tab="interface">Interface</button>
+  </nav>
 
   <section id="style" class="pane active">
     <label>Handle<input id="handle" maxlength="15" placeholder="NovasPlace"></label>
     <label>Preset<select id="preset">
       <option value="custom">Custom</option>
       <option value="rune-surge">✦ Rune Surge</option>
+      <option value="party-hat">🎉 Party Hat</option>
+      <option value="ice-barrage">❄ Ice Barrage</option>
+      <option value="toxic-pk">☣ Toxic PK</option>
+      <option value="infernal-cape">🔥 Infernal Cape</option>
+      <option value="void-pulse">◉ Void Pulse</option>
+      <option value="ancient-glow">✧ Ancient Glow</option>
     </select></label>
     <div class="row">
       <label>Effect<select id="effect">
@@ -42,7 +55,7 @@
   </section>
 
   <section id="community" class="pane">
-    <label class="toggleLine"><span><b>Community Sync</b><small>Show themes published in the GitHub registry.</small></span><input id="communityEnabled" type="checkbox"></label>
+    <label class="toggleLine noTop"><span><b>Community Sync</b><small>Show themes published in the GitHub registry.</small></span><input id="communityEnabled" type="checkbox"></label>
     <label>Registry URL<textarea id="registryUrl" rows="3"></textarea></label>
     <div class="buttons"><button id="saveRegistry" class="primary">Save registry</button><button id="refresh">Refresh now</button></div>
     <div id="registryStatus" class="statusBox">Not synced yet.</div>
@@ -50,6 +63,35 @@
     <label>Muted handles<input id="mutedHandles" placeholder="spam, anotherhandle"></label>
     <label>Muted effects<input id="mutedEffects" placeholder="flash, toxic"></label>
     <button id="saveMutes">Save mutes</button>
+  </section>
+
+  <section id="interface" class="pane">
+    <label>Interface skin<select id="uiTheme">
+      <option value="neon-rune">✦ Neon Rune</option>
+      <option value="grand-exchange">🪙 Grand Exchange</option>
+      <option value="void">◉ Void</option>
+      <option value="frozen">❄ Frozen</option>
+      <option value="inferno">🔥 Inferno</option>
+      <option value="toxic">☣ Toxic</option>
+      <option value="party">🎉 Party</option>
+      <option value="custom">🎨 Custom</option>
+    </select></label>
+
+    <div class="skinGrid" aria-label="Interface skin shortcuts">
+      <button data-ui-theme="neon-rune" title="Neon Rune"><i></i><span>Rune</span></button>
+      <button data-ui-theme="grand-exchange" title="Grand Exchange"><i></i><span>GE</span></button>
+      <button data-ui-theme="void" title="Void"><i></i><span>Void</span></button>
+      <button data-ui-theme="frozen" title="Frozen"><i></i><span>Ice</span></button>
+      <button data-ui-theme="inferno" title="Inferno"><i></i><span>Fire</span></button>
+      <button data-ui-theme="toxic" title="Toxic"><i></i><span>Toxic</span></button>
+      <button data-ui-theme="party" title="Party"><i></i><span>Party</span></button>
+    </div>
+
+    <div class="row colors"><label>Accent 1<input id="uiAccent1" type="color"></label><label>Accent 2<input id="uiAccent2" type="color"></label></div>
+    <label class="toggleLine"><span><b>Glass panels</b><small>Blurred translucent cards and controls.</small></span><input id="uiGlass" type="checkbox"></label>
+    <label class="toggleLine"><span><b>Compact mode</b><small>Smaller popup with tighter spacing.</small></span><input id="uiCompact" type="checkbox"></label>
+    <label class="toggleLine"><span><b>Animated backdrop</b><small>Slow-moving ambient color behind the UI.</small></span><input id="uiMotion" type="checkbox"></label>
+    <div class="buttons interfaceActions"><button id="saveInterface" class="primary">Save interface</button><button id="resetInterface">Reset</button></div>
   </section>
 
   <p id="status"></p>
