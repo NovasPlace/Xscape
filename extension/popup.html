@@ -9,7 +9,7 @@
 <body>
 <main>
   <header>
-    <div><b>✦ Xscape</b><small>Community Name FX · v0.5.0</small></div>
+    <div><b>✦ Xscape</b><small>Community Name FX · v0.6.0</small></div>
     <label class="switch" title="Enable Xscape"><input id="enabled" type="checkbox"><span></span></label>
   </header>
 
@@ -22,7 +22,8 @@
   <nav>
     <button class="tab active" data-tab="style">Style</button>
     <button class="tab" data-tab="community">Community</button>
-    <button class="tab" data-tab="interface">Interface</button>
+    <button class="tab" data-tab="interface">Popup</button>
+    <button class="tab overlayTab" data-tab="overlay">X Overlay</button>
   </nav>
 
   <section id="style" class="pane active">
@@ -66,7 +67,7 @@
   </section>
 
   <section id="interface" class="pane">
-    <label>Interface skin<select id="uiTheme">
+    <label>Popup skin<select id="uiTheme">
       <option value="neon-rune">✦ Neon Rune</option>
       <option value="grand-exchange">🪙 Grand Exchange</option>
       <option value="void">◉ Void</option>
@@ -77,7 +78,7 @@
       <option value="custom">🎨 Custom</option>
     </select></label>
 
-    <div class="skinGrid" aria-label="Interface skin shortcuts">
+    <div class="skinGrid" aria-label="Popup skin shortcuts">
       <button data-ui-theme="neon-rune" title="Neon Rune"><i></i><span>Rune</span></button>
       <button data-ui-theme="grand-exchange" title="Grand Exchange"><i></i><span>GE</span></button>
       <button data-ui-theme="void" title="Void"><i></i><span>Void</span></button>
@@ -91,11 +92,56 @@
     <label class="toggleLine"><span><b>Glass panels</b><small>Blurred translucent cards and controls.</small></span><input id="uiGlass" type="checkbox"></label>
     <label class="toggleLine"><span><b>Compact mode</b><small>Smaller popup with tighter spacing.</small></span><input id="uiCompact" type="checkbox"></label>
     <label class="toggleLine"><span><b>Animated backdrop</b><small>Slow-moving ambient color behind the UI.</small></span><input id="uiMotion" type="checkbox"></label>
-    <div class="buttons interfaceActions"><button id="saveInterface" class="primary">Save interface</button><button id="resetInterface">Reset</button></div>
+    <div class="buttons interfaceActions"><button id="saveInterface" class="primary">Save popup</button><button id="resetInterface">Reset</button></div>
+  </section>
+
+  <section id="overlay" class="pane">
+    <div class="overlayHero">
+      <span class="overlayRune">✦</span>
+      <div><b>Full X Overlay</b><small>Reskin the entire site locally.</small></div>
+      <label class="switch" title="Enable full X overlay"><input id="overlayEnabled" type="checkbox"><span></span></label>
+    </div>
+
+    <label>Site skin<select id="overlayTheme">
+      <option value="neon-rune">✦ Neon Rune</option>
+      <option value="grand-exchange">🪙 Grand Exchange</option>
+      <option value="void">◉ Void</option>
+      <option value="frozen">❄ Frozen</option>
+      <option value="inferno">🔥 Inferno</option>
+      <option value="toxic">☣ Toxic</option>
+      <option value="party">🎉 Party</option>
+      <option value="custom">🎨 Custom</option>
+    </select></label>
+
+    <div class="skinGrid overlaySkins" aria-label="X overlay skin shortcuts">
+      <button data-overlay-theme="neon-rune" title="Neon Rune"><i></i><span>Rune</span></button>
+      <button data-overlay-theme="grand-exchange" title="Grand Exchange"><i></i><span>GE</span></button>
+      <button data-overlay-theme="void" title="Void"><i></i><span>Void</span></button>
+      <button data-overlay-theme="frozen" title="Frozen"><i></i><span>Ice</span></button>
+      <button data-overlay-theme="inferno" title="Inferno"><i></i><span>Fire</span></button>
+      <button data-overlay-theme="toxic" title="Toxic"><i></i><span>Toxic</span></button>
+      <button data-overlay-theme="party" title="Party"><i></i><span>Party</span></button>
+    </div>
+
+    <div class="row colors"><label>Accent 1<input id="overlayAccent1" type="color"></label><label>Accent 2<input id="overlayAccent2" type="color"></label></div>
+
+    <div class="overlayOptions">
+      <label class="toggleLine noTop"><span><b>Glass timeline</b><small>Blurred navigation, cards, menus, and composer.</small></span><input id="overlayGlass" type="checkbox"></label>
+      <label class="toggleLine"><span><b>Compact timeline</b><small>Tighter cards and less wasted vertical space.</small></span><input id="overlayCompact" type="checkbox"></label>
+      <label class="toggleLine"><span><b>Hide right sidebar</b><small>Remove search, trends, and recommendations column.</small></span><input id="overlayHideRight" type="checkbox"></label>
+      <label class="toggleLine"><span><b>Hide discovery clutter</b><small>Remove trends and Who to follow modules.</small></span><input id="overlayHideTrends" type="checkbox"></label>
+      <label class="toggleLine"><span><b>Hide promoted posts</b><small>Remove detected promoted timeline cells.</small></span><input id="overlayHideAds" type="checkbox"></label>
+      <label class="toggleLine"><span><b>Dim timeline media</b><small>Fade images and video until the post is hovered.</small></span><input id="overlayDimMedia" type="checkbox"></label>
+      <label class="toggleLine"><span><b>Rounded media</b><small>Round avatars, images, and video into game-like cards.</small></span><input id="overlayRoundMedia" type="checkbox"></label>
+    </div>
+
+    <div class="overlayHint">Changes apply only in your browser and update open X tabs immediately.</div>
+    <div class="buttons interfaceActions"><button id="applyOverlay" class="primary">Apply overlay</button><button id="resetOverlay">Reset</button></div>
   </section>
 
   <p id="status"></p>
 </main>
 <script type="module" src="popup.js"></script>
+<script type="module" src="overlay-popup.js"></script>
 </body>
 </html>
