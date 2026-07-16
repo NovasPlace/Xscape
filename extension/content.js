@@ -4,6 +4,20 @@
   const KEY = "xscapeSettings";
   const USER = '[data-testid="User-Name"],[data-testid="UserName"]';
   const EFFECTS = new Set(["solid","gradient","glow","rainbow","flash","wave","pulse","fire","ice","toxic"]);
+  const SHUFFLE_STYLES = [
+    {effect:"wave",color1:"#57d9ff",color2:"#f4c95d",speed:1.08,intensity:1},
+    {effect:"wave",color1:"#8b5cf6",color2:"#22d3ee",speed:.92,intensity:.9},
+    {effect:"rainbow",color1:"#ff69d4",color2:"#57d9ff",speed:1.35,intensity:.95},
+    {effect:"glow",color1:"#57d9ff",color2:"#8b5cf6",speed:1.6,intensity:.85},
+    {effect:"gradient",color1:"#f4c95d",color2:"#79ff97",speed:1.55,intensity:.82},
+    {effect:"pulse",color1:"#8b5cf6",color2:"#ff69d4",speed:1.4,intensity:.85},
+    {effect:"fire",color1:"#ff4a00",color2:"#ffd000",speed:.85,intensity:1},
+    {effect:"ice",color1:"#74ddff",color2:"#737dff",speed:1.45,intensity:.92},
+    {effect:"toxic",color1:"#76ff00",color2:"#00ffd5",speed:.68,intensity:.9},
+    {effect:"flash",color1:"#ff1744",color2:"#f4c95d",speed:1.75,intensity:.72},
+    {effect:"gradient",color1:"#57d9ff",color2:"#ff69d4",speed:1.2,intensity:.88},
+    {effect:"glow",color1:"#79ff97",color2:"#22d3ee",speed:1.3,intensity:.78}
+  ];
   const DEFAULTS = {
     enabled: true,
     demoMode: false,
@@ -12,6 +26,8 @@
     demoColor2: "#00f5ff",
     demoSpeed: 1,
     demoIntensity: .82,
+    shuffleMode: false,
+    shuffleSeed: 1,
     communityEnabled: false,
     communityRegistryUrl: "https://raw.githubusercontent.com/NovasPlace/Xscape/main/themes/community.json",
     mutedHandles: [],
@@ -36,6 +52,7 @@
     return {
       ...DEFAULTS,
       ...incoming,
+      shuffleSeed: Number.isFinite(Number(incoming.shuffleSeed)) ? Math.floor(Number(incoming.shuffleSeed)) : DEFAULTS.shuffleSeed,
       profiles: incoming.profiles && typeof incoming.profiles === "object" ? incoming.profiles : {},
       mutedHandles: Array.isArray(incoming.mutedHandles) ? incoming.mutedHandles.map(norm).filter(Boolean) : [],
       mutedEffects: Array.isArray(incoming.mutedEffects) ? incoming.mutedEffects.map(x => String(x).toLowerCase()) : []
@@ -45,6 +62,25 @@
   async function load() {
     const stored = await chrome.storage.local.get(KEY);
     settings = merge(stored[KEY]);
+  }
+
+  function hashHandle(handle, seed) {
+    let hash = (2166136261 ^ (seed >>> 0)) >>> 0;
+    for (let index = 0; index < handle.length; index += 1) {
+      hash ^= handle.charCodeAt(index);
+      hash = Math.imul(hash, 16777619) >>> 0;
+    }
+    hash ^= hash >>> 16;
+    hash = Math.imul(hash, 2246822507) >>> 0;
+    hash ^= hash >>> 13;
+    return hash >>> 0;
+  }
+
+  function shuffleStyleFor(handle) {
+    if (!settings.shuffleMode || settings.mutedHandles.includes(handle)) return null;
+    const pool = SHUFFLE_STYLES.filter(style => !settings.mutedEffects.includes(style.effect));
+    if (!pool.length) return null;
+    return pool[hashHandle(handle, settings.shuffleSeed) % pool.length];
   }
 
   function findHandle(box) {
@@ -182,6 +218,8 @@
     if (local && local.enabled !== false) return local;
     const shared=community.get(handle);
     if (shared && !settings.mutedHandles.includes(handle) && !settings.mutedEffects.includes(shared.effect)) return shared;
+    const shuffled=shuffleStyleFor(handle);
+    if (shuffled) return shuffled;
     if (settings.demoMode) return {
       effect:settings.demoEffect,color1:settings.demoColor1,color2:settings.demoColor2,
       speed:settings.demoSpeed,intensity:settings.demoIntensity
