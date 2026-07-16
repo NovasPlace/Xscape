@@ -1,0 +1,219 @@
+/* Xscape full-page X overlay */
+html.xscape-overlay{
+  color-scheme:dark;
+  --xo-bg:#06070b;
+  --xo-surface:#0f1219;
+  --xo-surface2:#171b25;
+  --xo-field:#0a0d13;
+  --xo-line:#2d3240;
+  --xo-text:#f8fafc;
+  --xo-muted:#929cab;
+  --xo-a:#8b5cf6;
+  --xo-b:#22d3ee;
+  background:var(--xo-bg)!important;
+}
+html.xscape-overlay body{
+  background:
+    radial-gradient(circle at 12% 0,color-mix(in srgb,var(--xo-a) 18%,transparent),transparent 31%),
+    radial-gradient(circle at 88% 100%,color-mix(in srgb,var(--xo-b) 13%,transparent),transparent 34%),
+    var(--xo-bg)!important;
+  background-attachment:fixed!important;
+  color:var(--xo-text)!important;
+}
+html.xscape-overlay body,
+html.xscape-overlay button,
+html.xscape-overlay input,
+html.xscape-overlay textarea{
+  scrollbar-color:var(--xo-a) var(--xo-bg);
+}
+html.xscape-overlay ::selection{
+  color:#fff!important;
+  background:color-mix(in srgb,var(--xo-a) 68%,var(--xo-b))!important;
+}
+html.xscape-overlay #react-root,
+html.xscape-overlay main,
+html.xscape-overlay [data-testid="primaryColumn"]{
+  background:transparent!important;
+}
+html.xscape-overlay [data-testid="primaryColumn"]{
+  border-color:var(--xo-line)!important;
+}
+html.xscape-overlay [data-testid="primaryColumn"] > div:first-child,
+html.xscape-overlay header[role="banner"],
+html.xscape-overlay [data-testid="sidebarColumn"] > div{
+  background:color-mix(in srgb,var(--xo-bg) 86%,transparent)!important;
+  border-color:var(--xo-line)!important;
+}
+html.xscape-overlay.xscape-overlay-glass [data-testid="primaryColumn"] > div:first-child,
+html.xscape-overlay.xscape-overlay-glass header[role="banner"],
+html.xscape-overlay.xscape-overlay-glass [data-testid="sidebarColumn"] > div{
+  backdrop-filter:blur(18px) saturate(1.15)!important;
+}
+html.xscape-overlay article[data-testid="tweet"]{
+  margin:8px 10px!important;
+  border:1px solid var(--xo-line)!important;
+  border-radius:18px!important;
+  background:
+    linear-gradient(145deg,color-mix(in srgb,var(--xo-surface) 96%,var(--xo-a) 4%),var(--xo-surface))!important;
+  box-shadow:0 12px 34px #0006,inset 0 1px 0 #ffffff09!important;
+  overflow:hidden!important;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease!important;
+}
+html.xscape-overlay article[data-testid="tweet"]:hover{
+  transform:translateY(-1px)!important;
+  border-color:color-mix(in srgb,var(--xo-a) 62%,var(--xo-line))!important;
+  box-shadow:0 18px 42px #0008,0 0 24px color-mix(in srgb,var(--xo-a) 10%,transparent)!important;
+}
+html.xscape-overlay.xscape-overlay-glass article[data-testid="tweet"]{
+  background:color-mix(in srgb,var(--xo-surface) 78%,transparent)!important;
+  backdrop-filter:blur(14px) saturate(1.12)!important;
+}
+html.xscape-overlay [data-testid="cellInnerDiv"]{
+  border-color:transparent!important;
+}
+html.xscape-overlay [data-testid="tweetTextarea_0"],
+html.xscape-overlay input,
+html.xscape-overlay textarea{
+  color:var(--xo-text)!important;
+  caret-color:var(--xo-b)!important;
+}
+html.xscape-overlay [data-testid="SearchBox_Search_Input"],
+html.xscape-overlay [role="textbox"]{
+  background:var(--xo-field)!important;
+  border-color:var(--xo-line)!important;
+}
+html.xscape-overlay [data-testid="SearchBox_Search_Input"]:focus,
+html.xscape-overlay [role="textbox"]:focus{
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--xo-a) 24%,transparent)!important;
+}
+html.xscape-overlay [role="dialog"],
+html.xscape-overlay [role="menu"],
+html.xscape-overlay [data-testid="Dropdown"],
+html.xscape-overlay [data-testid="sheetDialog"]{
+  background:color-mix(in srgb,var(--xo-surface) 96%,transparent)!important;
+  border:1px solid var(--xo-line)!important;
+  box-shadow:0 24px 80px #000b,0 0 40px color-mix(in srgb,var(--xo-a) 10%,transparent)!important;
+}
+html.xscape-overlay.xscape-overlay-glass [role="dialog"],
+html.xscape-overlay.xscape-overlay-glass [role="menu"],
+html.xscape-overlay.xscape-overlay-glass [data-testid="Dropdown"],
+html.xscape-overlay.xscape-overlay-glass [data-testid="sheetDialog"]{
+  backdrop-filter:blur(22px) saturate(1.2)!important;
+}
+html.xscape-overlay [data-testid="sidebarColumn"] section,
+html.xscape-overlay [data-testid="sidebarColumn"] aside,
+html.xscape-overlay [data-testid="sidebarColumn"] [role="region"]{
+  background:var(--xo-surface)!important;
+  border:1px solid var(--xo-line)!important;
+  border-radius:18px!important;
+  box-shadow:0 12px 30px #0005!important;
+  overflow:hidden!important;
+}
+html.xscape-overlay header[role="banner"] nav a{
+  margin:3px 0!important;
+  border-radius:14px!important;
+  transition:background .16s,color .16s,transform .16s!important;
+}
+html.xscape-overlay header[role="banner"] nav a:hover{
+  background:color-mix(in srgb,var(--xo-a) 18%,var(--xo-surface))!important;
+  transform:translateX(2px)!important;
+}
+html.xscape-overlay header[role="banner"] nav a[aria-current="page"]{
+  color:var(--xo-text)!important;
+  background:linear-gradient(100deg,color-mix(in srgb,var(--xo-a) 28%,var(--xo-surface)),color-mix(in srgb,var(--xo-b) 13%,var(--xo-surface)))!important;
+  box-shadow:inset 3px 0 0 var(--xo-b),0 0 20px color-mix(in srgb,var(--xo-a) 10%,transparent)!important;
+}
+html.xscape-overlay a{
+  --color-primary:var(--xo-b)!important;
+}
+html.xscape-overlay a:hover{
+  text-decoration-color:var(--xo-b)!important;
+}
+html.xscape-overlay [data-testid="SideNav_NewTweet_Button"],
+html.xscape-overlay [data-testid="tweetButtonInline"],
+html.xscape-overlay [data-testid="tweetButton"]{
+  border:0!important;
+  color:#fff!important;
+  background:linear-gradient(115deg,var(--xo-a),var(--xo-b))!important;
+  box-shadow:0 8px 24px color-mix(in srgb,var(--xo-a) 28%,transparent)!important;
+}
+html.xscape-overlay [data-testid="SideNav_NewTweet_Button"]:hover,
+html.xscape-overlay [data-testid="tweetButtonInline"]:hover,
+html.xscape-overlay [data-testid="tweetButton"]:hover{
+  filter:brightness(1.13) saturate(1.12)!important;
+}
+html.xscape-overlay [role="tablist"]{
+  border-color:var(--xo-line)!important;
+}
+html.xscape-overlay [role="tab"][aria-selected="true"]{
+  color:var(--xo-text)!important;
+}
+html.xscape-overlay [role="tab"][aria-selected="true"]::after{
+  background:linear-gradient(90deg,var(--xo-a),var(--xo-b))!important;
+}
+html.xscape-overlay [data-testid^="UserAvatar-"]{
+  border-radius:14px!important;
+  box-shadow:0 0 0 1px var(--xo-line),0 0 18px color-mix(in srgb,var(--xo-a) 14%,transparent)!important;
+  overflow:hidden!important;
+}
+html.xscape-overlay [data-testid^="UserAvatar-"] img{
+  border-radius:12px!important;
+}
+html.xscape-overlay.xscape-overlay-round-media [data-testid="tweetPhoto"],
+html.xscape-overlay.xscape-overlay-round-media [data-testid="videoPlayer"],
+html.xscape-overlay.xscape-overlay-round-media article video{
+  border-radius:16px!important;
+  overflow:hidden!important;
+}
+html.xscape-overlay article [role="group"] button{
+  border-radius:999px!important;
+  transition:background .14s,transform .14s!important;
+}
+html.xscape-overlay article [role="group"] button:hover{
+  background:color-mix(in srgb,var(--xo-a) 15%,transparent)!important;
+  transform:translateY(-1px)!important;
+}
+html.xscape-overlay.xscape-overlay-compact article[data-testid="tweet"]{
+  margin:5px 8px!important;
+  border-radius:14px!important;
+}
+html.xscape-overlay.xscape-overlay-compact article[data-testid="tweet"] > div{
+  padding-top:7px!important;
+  padding-bottom:7px!important;
+}
+html.xscape-overlay.xscape-overlay-hide-right [data-testid="sidebarColumn"]{
+  display:none!important;
+}
+html.xscape-overlay.xscape-overlay-hide-trends [data-testid="trend"],
+html.xscape-overlay.xscape-overlay-hide-trends [aria-label*="Timeline: Trending"],
+html.xscape-overlay.xscape-overlay-hide-trends aside[aria-label*="Who to follow"],
+html.xscape-overlay.xscape-overlay-hide-trends section:has([data-testid="trend"]){
+  display:none!important;
+}
+html.xscape-overlay.xscape-overlay-hide-ads article:has([data-testid="placementTracking"]),
+html.xscape-overlay.xscape-overlay-hide-ads [data-testid="cellInnerDiv"]:has([data-testid="placementTracking"]){
+  display:none!important;
+}
+html.xscape-overlay.xscape-overlay-dim-media article [data-testid="tweetPhoto"],
+html.xscape-overlay.xscape-overlay-dim-media article video{
+  opacity:.42!important;
+  filter:saturate(.65) brightness(.78)!important;
+  transition:opacity .18s,filter .18s!important;
+}
+html.xscape-overlay.xscape-overlay-dim-media article:hover [data-testid="tweetPhoto"],
+html.xscape-overlay.xscape-overlay-dim-media article:hover video{
+  opacity:1!important;
+  filter:none!important;
+}
+html.xscape-overlay [data-testid="toast"]{
+  background:linear-gradient(110deg,var(--xo-a),var(--xo-b))!important;
+  color:#fff!important;
+  border-radius:12px!important;
+}
+@media (prefers-reduced-motion:reduce){
+  html.xscape-overlay article[data-testid="tweet"],
+  html.xscape-overlay header[role="banner"] nav a,
+  html.xscape-overlay article [role="group"] button{
+    transition:none!important;
+  }
+}
