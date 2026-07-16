@@ -23,15 +23,23 @@ const UI_THEMES={
 };
 const D={
   enabled:true,demoMode:false,demoEffect:"wave",demoColor1:"#00f5ff",demoColor2:"#8b5cf6",
-  demoSpeed:.92,demoIntensity:.9,communityEnabled:false,communityRegistryUrl:DEFAULT_REGISTRY_URL,
+  demoSpeed:.92,demoIntensity:.9,shuffleMode:false,shuffleSeed:1,
+  communityEnabled:false,communityRegistryUrl:DEFAULT_REGISTRY_URL,
   mutedHandles:[],mutedEffects:[],profiles:{},
   uiTheme:"neon-rune",uiAccent1:"#8b5cf6",uiAccent2:"#22d3ee",uiGlass:true,uiCompact:false,uiMotion:true
 };
+const OWNED_KEYS=[
+  "enabled","demoMode","demoEffect","demoColor1","demoColor2","demoSpeed","demoIntensity",
+  "shuffleMode","shuffleSeed","communityEnabled","communityRegistryUrl","registryRefreshNonce",
+  "mutedHandles","mutedEffects","profiles",
+  "uiTheme","uiAccent1","uiAccent2","uiGlass","uiCompact","uiMotion"
+];
 const $=s=>document.querySelector(s);
 const el={
   enabled:$("#enabled"),handle:$("#handle"),preset:$("#preset"),effect:$("#effect"),color1:$("#color1"),color2:$("#color2"),
   speed:$("#speed"),intensity:$("#intensity"),speedOut:$("#speedOut"),intensityOut:$("#intensityOut"),
   save:$("#save"),remove:$("#remove"),usePage:$("#usePage"),demoMode:$("#demoMode"),
+  shuffleMode:$("#shuffleMode"),rerollShuffle:$("#rerollShuffle"),
   communityEnabled:$("#communityEnabled"),registryUrl:$("#registryUrl"),saveRegistry:$("#saveRegistry"),
   refresh:$("#refresh"),registryStatus:$("#registryStatus"),copyTheme:$("#copyTheme"),openRegistry:$("#openRegistry"),
   mutedHandles:$("#mutedHandles"),mutedEffects:$("#mutedEffects"),saveMutes:$("#saveMutes"),
@@ -42,8 +50,30 @@ const el={
 let settings={...D,profiles:{}};
 let previewAnimations=[];
 
-function merge(v){const x=v&&typeof v==="object"?v:{};return {...D,...x,profiles:x.profiles&&typeof x.profiles==="object"?x.profiles:{},mutedHandles:Array.isArray(x.mutedHandles)?x.mutedHandles:[],mutedEffects:Array.isArray(x.mutedEffects)?x.mutedEffects:[]}}
-async function persist(rescan=true){await chrome.storage.local.set({[KEY]:settings});if(!rescan)return;try{const [tab]=await chrome.tabs.query({active:true,currentWindow:true});if(tab?.id)await chrome.tabs.sendMessage(tab.id,{type:"XSCAPE_RESCAN"})}catch{}}
+function merge(v){
+  const x=v&&typeof v==="object"?v:{};
+  return {
+    ...D,...x,
+    shuffleSeed:Number.isFinite(Number(x.shuffleSeed))?Math.floor(Number(x.shuffleSeed)):D.shuffleSeed,
+    profiles:x.profiles&&typeof x.profiles==="object"?x.profiles:{},
+    mutedHandles:Array.isArray(x.mutedHandles)?x.mutedHandles:[],
+    mutedEffects:Array.isArray(x.mutedEffects)?x.mutedEffects:[]
+  };
+}
+async function persist(rescan=true){
+  const stored=await chrome.storage.local.get(KEY);
+  const current=stored[KEY]&&typeof stored[KEY]==="object"?stored[KEY]:{};
+  const patch={};
+  for(const key of OWNED_KEYS)if(Object.prototype.hasOwnProperty.call(settings,key))patch[key]=settings[key];
+  const next={...current,...patch};
+  settings=merge(next);
+  await chrome.storage.local.set({[KEY]:next});
+  if(!rescan)return;
+  try{
+    const [tab]=await chrome.tabs.query({active:true,currentWindow:true});
+    if(tab?.id)await chrome.tabs.sendMessage(tab.id,{type:"XSCAPE_RESCAN"});
+  }catch{}
+}
 function note(text,bad=false){el.status.textContent=text;el.status.style.color=bad?"#fca5a5":"var(--muted)";setTimeout(()=>{if(el.status.textContent===text)el.status.textContent=""},2500)}
 function formStyle(){return {enabled:true,effect:el.effect.value,color1:el.color1.value,color2:el.color2.value,speed:Number(el.speed.value),intensity:Number(el.intensity.value)}}
 function matchesPreset(style,preset){return style.effect===preset.effect&&style.color1.toLowerCase()===preset.color1&&style.color2.toLowerCase()===preset.color2&&Math.abs(style.speed-preset.speed)<.006&&Math.abs(style.intensity-preset.intensity)<.006}
@@ -90,7 +120,7 @@ function chooseInterfaceTheme(name){
 }
 async function init(){
   const stored=await chrome.storage.local.get(KEY);settings=merge(stored[KEY]);applyInterface();
-  el.enabled.checked=settings.enabled;el.demoMode.checked=settings.demoMode;el.communityEnabled.checked=settings.communityEnabled;
+  el.enabled.checked=settings.enabled;el.demoMode.checked=settings.demoMode;el.shuffleMode.checked=settings.shuffleMode;el.communityEnabled.checked=settings.communityEnabled;
   el.registryUrl.value=settings.communityRegistryUrl;el.mutedHandles.value=settings.mutedHandles.join(", ");el.mutedEffects.value=settings.mutedEffects.join(", ");
   try{const [tab]=await chrome.tabs.query({active:true,currentWindow:true});const c=tab?.id?await chrome.tabs.sendMessage(tab.id,{type:"XSCAPE_GET_CONTEXT"}):null;if(c?.pageHandle)el.handle.value=c.pageHandle}catch{}
   const h=normalizeHandle(el.handle.value);setForm(editorStyle(h));
@@ -100,7 +130,9 @@ document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelect
 ["handle","effect","color1","color2","speed","intensity"].forEach(k=>el[k].addEventListener("input",()=>{if(k!=="handle")syncPreset();preview()}));
 el.preset.onchange=async()=>{const style=PRESETS[el.preset.value];if(!style)return;setForm(style);const h=normalizeHandle(el.handle.value);if(!h)return note(style.name+" loaded. Enter a handle to apply it.");settings.profiles[h]=formStyle();await persist();note(style.name+" applied to @"+h)};
 el.enabled.onchange=async()=>{settings.enabled=el.enabled.checked;await persist()};
-el.demoMode.onchange=async()=>{settings.demoMode=el.demoMode.checked;Object.assign(settings,{demoEffect:el.effect.value,demoColor1:el.color1.value,demoColor2:el.color2.value,demoSpeed:Number(el.speed.value),demoIntensity:Number(el.intensity.value)});await persist();note(settings.demoMode?"Grand Exchange mode on.":"Grand Exchange mode off.")};
+el.demoMode.onchange=async()=>{settings.demoMode=el.demoMode.checked;if(settings.demoMode){settings.shuffleMode=false;el.shuffleMode.checked=false}Object.assign(settings,{demoEffect:el.effect.value,demoColor1:el.color1.value,demoColor2:el.color2.value,demoSpeed:Number(el.speed.value),demoIntensity:Number(el.intensity.value)});await persist();note(settings.demoMode?"Grand Exchange mode on.":"Grand Exchange mode off.")};
+el.shuffleMode.onchange=async()=>{settings.shuffleMode=el.shuffleMode.checked;if(settings.shuffleMode){settings.demoMode=false;el.demoMode.checked=false}await persist();note(settings.shuffleMode?"Party Shuffle on — every handle rolled a style.":"Party Shuffle off.")};
+el.rerollShuffle.onclick=async()=>{settings.shuffleSeed=(Number(settings.shuffleSeed)||0)+1;settings.shuffleMode=true;settings.demoMode=false;el.shuffleMode.checked=true;el.demoMode.checked=false;await persist();note("Profile styles rerolled. Seed "+settings.shuffleSeed+".")};
 el.save.onclick=async()=>{const h=normalizeHandle(el.handle.value);if(!h)return note("Enter a handle.",true);settings.profiles[h]=formStyle();await persist();note("Saved @"+h)};
 el.remove.onclick=async()=>{const h=normalizeHandle(el.handle.value);delete settings.profiles[h];await persist();setForm(editorStyle(h));note("Removed local override for @"+h)};
 el.usePage.onclick=async()=>{try{const [tab]=await chrome.tabs.query({active:true,currentWindow:true});const c=await chrome.tabs.sendMessage(tab.id,{type:"XSCAPE_GET_CONTEXT"});if(!c?.pageHandle)throw 0;el.handle.value=c.pageHandle;setForm(editorStyle(c.pageHandle))}catch{note("Open an X profile first.",true)}};
